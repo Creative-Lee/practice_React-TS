@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 type MyHeaderProps = {
 	headText: string
-	left: string
-	right: string
+	left: ReactNode
+	right: ReactNode
 }
 
 const MyHeader = ({ headText, left, right }: MyHeaderProps) => {
