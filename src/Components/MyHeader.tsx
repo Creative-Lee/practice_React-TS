@@ -8,7 +8,7 @@ type MyHeaderProps = {
 
 const MyHeader = ({ headText, left, right }: MyHeaderProps) => {
 	return (
-		<header>
+		<header className='MyHeader'>
 			<div className='head_btn_left'>{left}</div>
 			<div className='head_text'>{headText}</div>
 			<div className='head_btn_right'>{right}</div>

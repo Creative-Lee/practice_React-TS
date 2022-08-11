@@ -3,7 +3,7 @@ import React from 'react'
 type MyButtonProps = {
 	text: string
 	type: string
-	onClick(): void
+	onClick?(): void
 }
 
 const MyButton = ({ text, type, onClick }: MyButtonProps) => {
@@ -20,6 +20,7 @@ const MyButton = ({ text, type, onClick }: MyButtonProps) => {
 
 MyButton.defaultProps = {
 	type: 'default',
+	onClick: () => {},
 }
 
 export default MyButton
