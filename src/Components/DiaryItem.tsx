@@ -26,7 +26,7 @@ const DiaryItem = ({ data }: DiaryItemProps) => {
 				onClick={goDetail}
 			>
 				<img
-					src={`${process.env.PUBLIC_URL}/assets/emotion/emotion${data.id}.png`}
+					src={`${process.env.PUBLIC_URL}/assets/emotion/emotion${data.emotion}.png`}
 					alt='img'
 				/>
 			</div>

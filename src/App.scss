@@ -257,8 +257,12 @@ header button {
 
 .DiaryEditor .control_box {
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
+
+	button {
+		width: 100%;
+	}
 }
 
 /* EMOTION ITEM */

@@ -3,13 +3,15 @@ import { Routes, Route } from 'react-router-dom'
 import { Edit, Diary, Home, New } from './Pages'
 
 import { dataReducer } from './reducer'
-import { DiaryItemData } from './types'
+import { DiaryItemData, DispatchContext } from './types'
 import './App.scss'
 
 import { OnCreate, OnRemove, OnEdit } from './types'
 
 export const DiaryStateContext = React.createContext<DiaryItemData[]>([])
-export const DiaryDispatchContext = React.createContext({})
+export const DiaryDispatchContext = React.createContext<DispatchContext>(
+	{} as DispatchContext,
+)
 
 const App = () => {
 	const dummyData: DiaryItemData[] = [
@@ -44,7 +46,7 @@ const App = () => {
 			createdDate: 160120966200,
 		},
 	]
-	const [data, dispatch] = useReducer(dataReducer, dummyData)
+	const [data, dispatch] = useReducer(dataReducer, [])
 	const dataId = useRef(0)
 	const onCreate: OnCreate = (createdDate, content, emotion) => {
 		dispatch({

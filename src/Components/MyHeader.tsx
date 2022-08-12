@@ -2,8 +2,8 @@ import React, { ReactNode } from 'react'
 
 type MyHeaderProps = {
 	headText: string
-	left: ReactNode
-	right: ReactNode
+	left?: ReactNode
+	right?: ReactNode
 }
 
 const MyHeader = ({ headText, left, right }: MyHeaderProps) => {

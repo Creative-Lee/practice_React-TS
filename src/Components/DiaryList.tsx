@@ -57,9 +57,9 @@ const DiaryList = ({ diaryData }: DiaryListProps) => {
 		}
 
 		const emotionSortCallback = (data: DiaryItemData) => {
-			if (emotionSortType === 'all') return data.emotion >= 1
-			if (emotionSortType === 'good') return data.emotion >= 3
-			if (emotionSortType === 'bad') return data.emotion <= 2
+			if (emotionSortType === 'all') return data.emotion <= 5
+			if (emotionSortType === 'good') return data.emotion <= 3
+			if (emotionSortType === 'bad') return data.emotion >= 4
 		}
 
 		cloneList = cloneList.filter(emotionSortCallback)

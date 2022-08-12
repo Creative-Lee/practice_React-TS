@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { MyButton, MyHeader, DiaryEditor } from '../Components'
+import { useNavigate } from 'react-router-dom'
 
 const New = () => {
 	return (
-		<div>
-			<h1>New</h1>
-			<p>일기 생성페이지</p>
+		<div className='New'>
+			<DiaryEditor />
 		</div>
 	)
 }
