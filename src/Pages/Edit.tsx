@@ -1,29 +1,26 @@
-import React from 'react'
-import { useSearchParams, useNavigate } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { DiaryStateContext } from '../App'
+import { DiaryItemData } from '../types'
+import { DiaryEditor } from '../Components/Contents'
 
 const Edit = () => {
-	const [searchParams, setSearchparams] = useSearchParams()
-
-	const id = searchParams.get('id')
-	const mode = searchParams.get('mode')
-	const who = searchParams.get('who')
 	const navigate = useNavigate()
+	const diaryData = useContext(DiaryStateContext)
+	const { id } = useParams()
 
-	return (
-		<div>
-			<h1>Edit</h1>
-			<p>일기 수정페이지</p>
-			<button
-				onClick={() => {
-					setSearchparams({ who: 'bobob' })
-				}}
-			>
-				QS 바꾸기
-			</button>
+	const [data, setData] = useState<DiaryItemData>({} as DiaryItemData)
 
-			<button onClick={() => navigate('/home')}>홈으로</button>
-		</div>
-	)
+	useEffect(() => {
+		let paramsMatchedData = diaryData.find((e) => `${e.id}` === id)
+		if (paramsMatchedData) {
+			setData(paramsMatchedData)
+		} else {
+			navigate('/', { replace: true })
+		}
+	}, [id, diaryData])
+
+	return <div>{data && <DiaryEditor isEdit={true} data={data} />}</div>
 }
 
 export default Edit

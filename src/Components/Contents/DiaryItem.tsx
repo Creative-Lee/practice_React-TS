@@ -1,6 +1,6 @@
 import React from 'react'
-import { DiaryItemData } from '../types'
-import { MyButton } from './'
+import { DiaryItemData } from '../../types'
+import { MyButton } from '../Common'
 import { useNavigate } from 'react-router-dom'
 type DiaryItemProps = {
 	data: DiaryItemData

@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { MyHeader, MyButton, DiaryList } from '../Components'
+import { MyHeader, MyButton } from '../Components/Common'
+import { DiaryList } from '../Components/Contents'
+
 import { DiaryStateContext } from '../App'
 import { DiaryItemData } from '../types'
 
@@ -51,7 +53,7 @@ const Home = () => {
 	}, [curDate, diaryData])
 
 	return (
-		<div>
+		<div className='Home'>
 			<MyHeader
 				headText={headText}
 				left={<MyButton onClick={decreaseMonth} text={'<'} />}

@@ -11,11 +11,6 @@ export interface EmotionItemData{
 	emotionDescript:  string
 }
 
-
-
-
-
-
 export interface DispatchContext {
 	onCreate: OnCreate
 	onRemove: OnRemove
@@ -24,7 +19,7 @@ export interface DispatchContext {
 
 export type OnCreate = (createdDate: string, content: string, emotion: number) => void
 export type OnRemove = (id: number) => void
-export type OnEdit = (data:DiaryItemData) => void
+export type OnEdit = (createdDate: string, content: string, id:number, emotion: number) => void
 
 export type OnChangeHTMLElement = (
 	e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,

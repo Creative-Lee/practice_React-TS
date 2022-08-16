@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { DiaryItemData } from '../types'
-import { MyButton, DiaryItem } from './'
+import { DiaryItemData } from '../../types'
+import { DiaryItem } from '.'
+import { MyButton, ControlMenu } from '../Common'
 
 const dateSortOptionList = [
 	{ value: 'lastest', name: '최신순' },
@@ -13,35 +14,10 @@ const emotionSortOptionList = [
 	{ value: 'bad', name: '나쁜 감정만' },
 ]
 
-type SortOption = {
-	value: string
-	name: string
-}
-
-type ControlMenuProps = {
-	value: string
-	setValue: (option: string) => void
-	optionList: SortOption[]
-}
 type DiaryListProps = {
 	diaryData: DiaryItemData[]
 }
 
-const ControlMenu = ({ value, setValue, optionList }: ControlMenuProps) => {
-	return (
-		<select
-			className='ControlMenu'
-			value={value}
-			onChange={(e) => setValue(e.target.value)}
-		>
-			{optionList.map((option, idx) => (
-				<option key={idx} value={option.value}>
-					{option.name}
-				</option>
-			))}
-		</select>
-	)
-}
 const DiaryList = ({ diaryData }: DiaryListProps) => {
 	const navigate = useNavigate()
 	const [dateSortType, setdateSortType] = useState('lastest')

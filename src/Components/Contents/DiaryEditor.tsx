@@ -1,8 +1,9 @@
-import React, { useRef, useState, useContext } from 'react'
-import { MyButton, MyHeader, EmotionItem } from './'
+import React, { useRef, useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { EmotionItemData } from '../types'
-import { DiaryDispatchContext } from '../App'
+
+import { DiaryDispatchContext } from '../../App'
+import { MyButton, MyHeader, EmotionItem } from '../Common'
+import { DiaryItemData, EmotionItemData } from '../../types'
 
 const getStringDate = (date: Date) => {
 	let year = date.getFullYear()
@@ -48,8 +49,13 @@ const emotionList: EmotionItemData[] = [
 	},
 ]
 
-const DiaryEditor = () => {
-	const { onCreate } = useContext(DiaryDispatchContext)
+type DiaryEditorProps = {
+	isEdit?: boolean
+	data?: DiaryItemData
+}
+
+const DiaryEditor = ({ isEdit, data }: DiaryEditorProps) => {
+	const { onCreate, onEdit } = useContext(DiaryDispatchContext)
 	const navigate = useNavigate()
 	const contentRef = useRef<HTMLTextAreaElement | null>(null)
 	const [content, setContent] = useState<string>('')
@@ -64,14 +70,30 @@ const DiaryEditor = () => {
 			contentRef.current?.focus()
 			return
 		}
-		onCreate(date, content, emotion)
+		if (isEdit) {
+			if (data) {
+				onEdit(date, content, data.id, emotion)
+			}
+		} else {
+			onCreate(date, content, emotion)
+		}
 		navigate('/', { replace: true })
 	}
+
+	useEffect(() => {
+		if (isEdit) {
+			if (data) {
+				setDate(getStringDate(new Date(data.createdDate)))
+				setContent(data.content)
+				setEmotion(data.emotion)
+			}
+		}
+	}, [isEdit, data])
 
 	return (
 		<div className='DiaryEditor'>
 			<MyHeader
-				headText='새로운 일기 쓰기'
+				headText={isEdit ? '수정하기' : '새로운 일기 쓰기'}
 				left={
 					<MyButton
 						text='< 뒤로가기'

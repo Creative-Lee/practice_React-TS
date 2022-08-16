@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { MyButton, MyHeader, DiaryEditor } from '../Components'
-import { useNavigate } from 'react-router-dom'
+import { DiaryEditor } from '../Components/Contents'
 
 const New = () => {
 	return (

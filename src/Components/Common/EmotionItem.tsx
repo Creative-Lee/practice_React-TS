@@ -1,5 +1,5 @@
 import React from 'react'
-import { EmotionItemData } from '../types'
+import { EmotionItemData } from '../../types'
 
 type EmotionItemProps = {
 	emotionData: EmotionItemData
