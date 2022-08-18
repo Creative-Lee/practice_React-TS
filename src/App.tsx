@@ -1,4 +1,5 @@
-import React, { useReducer, useRef } from 'react'
+import React, { useReducer, useRef, useEffect } from 'react'
+
 import { Routes, Route } from 'react-router-dom'
 import { Edit, Diary, Home, New } from './Pages'
 
@@ -8,7 +9,7 @@ import './App.scss'
 
 import { OnCreate, OnRemove, OnEdit } from './types'
 
-export const DiaryStateContext = React.createContext<DiaryItemData[]>([])
+export const DiaryStateContext = React.createContext<DiaryItemData[] | null>(null)
 export const DiaryDispatchContext = React.createContext<DispatchContext>({} as DispatchContext)
 
 const App = () => {
@@ -41,6 +42,18 @@ const App = () => {
 		})
 	}
 
+	useEffect(() => {
+		const localData = localStorage.getItem('diary')
+
+		if (localData) {
+			const parseData: DiaryItemData[] = JSON.parse(localData)
+			const diaryData = parseData.sort((a, b) => b.id - a.id)
+			dataId.current = diaryData[0].id + 1
+
+			dispatch({ type: 'INIT', data: diaryData })
+		}
+	}, [])
+
 	return (
 		<DiaryStateContext.Provider value={data}>
 			<DiaryDispatchContext.Provider value={{ onCreate, onEdit, onRemove }}>
@@ -48,8 +61,8 @@ const App = () => {
 					<Routes>
 						<Route path='/' element={<Home />} />
 						<Route path='/new' element={<New />} />
-						<Route path='/diary/:id' element={<Diary />} />
-						<Route path='/edit/:id' element={<Edit />} />
+						<Route path='/diary/:paramId' element={<Diary />} />
+						<Route path='/edit/:paramId' element={<Edit />} />
 					</Routes>
 				</div>
 			</DiaryDispatchContext.Provider>

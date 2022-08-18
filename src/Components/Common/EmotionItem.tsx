@@ -7,18 +7,12 @@ type EmotionItemProps = {
 	isSelected: boolean
 }
 
-const EmotionItem = ({
-	emotionData,
-	onClick,
-	isSelected,
-}: EmotionItemProps) => {
+const EmotionItem = ({ emotionData, onClick, isSelected }: EmotionItemProps) => {
 	return (
 		<div
 			className={[
 				'EmotionItem',
-				isSelected
-					? `EmotionItem_on_${emotionData.emotionId}`
-					: `EmotionItem_off`,
+				isSelected ? `EmotionItem_on_${emotionData.emotionId}` : `EmotionItem_off`,
 			].join(' ')}
 			onClick={() => onClick(emotionData.emotionId)}
 		>
@@ -28,4 +22,4 @@ const EmotionItem = ({
 	)
 }
 
-export default EmotionItem
+export default React.memo(EmotionItem)

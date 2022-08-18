@@ -13,42 +13,29 @@ const Home = () => {
 	const headText = `${curDate.getFullYear()}년 ${curDate.getMonth() + 1}월`
 
 	const increaseMonth = () => {
-		setCurDate(
-			new Date(
-				curDate.getFullYear(),
-				curDate.getMonth() + 1,
-				curDate.getDate(),
-			),
-		)
+		setCurDate(new Date(curDate.getFullYear(), curDate.getMonth() + 1, curDate.getDate()))
 	}
 	const decreaseMonth = () => {
-		setCurDate(
-			new Date(
-				curDate.getFullYear(),
-				curDate.getMonth() - 1,
-				curDate.getDate(),
-			),
-		)
+		setCurDate(new Date(curDate.getFullYear(), curDate.getMonth() - 1, curDate.getDate()))
 	}
 
 	useEffect(() => {
-		if (diaryData.length >= 1) {
-			let firstDay = new Date(
-				curDate.getFullYear(),
-				curDate.getMonth(),
-				1,
-			).getTime()
-			let lastDay = new Date(
-				curDate.getFullYear(),
-				curDate.getMonth() + 1,
-				0,
-			).getTime()
+		if (diaryData) {
+			if (diaryData.length >= 1) {
+				let firstDay = new Date(curDate.getFullYear(), curDate.getMonth(), 1).getTime()
+				let lastDay = new Date(
+					curDate.getFullYear(),
+					curDate.getMonth() + 1,
+					0,
+					23,
+					59,
+					59,
+				).getTime()
 
-			setData(
-				diaryData.filter(
-					(data) => firstDay <= data.createdDate && data.createdDate <= lastDay,
-				),
-			)
+				setData(
+					diaryData.filter((data) => firstDay <= data.createdDate && data.createdDate <= lastDay),
+				)
+			}
 		}
 	}, [curDate, diaryData])
 

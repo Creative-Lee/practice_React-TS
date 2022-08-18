@@ -1,53 +1,10 @@
-import React, { useRef, useState, useContext, useEffect } from 'react'
+import React, { useRef, useState, useContext, useEffect, useLayoutEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-
 import { DiaryDispatchContext } from '../../App'
 import { MyButton, MyHeader, EmotionItem } from '../Common'
-import { DiaryItemData, EmotionItemData } from '../../types'
-
-const getStringDate = (date: Date) => {
-	let year = date.getFullYear()
-	let month: number | string = date.getMonth() + 1
-	let day: number | string = date.getDate()
-
-	if (month < 10) {
-		month = `0${month}`
-	}
-
-	if (day < 10) {
-		day = `0${day}`
-	}
-
-	return `${year}-${month}-${day}`
-}
-
-const emotionList: EmotionItemData[] = [
-	{
-		emotionId: 1,
-		emotionImgSrc: `${process.env.PUBLIC_URL}/assets/emotion/emotion1.png`,
-		emotionDescript: 'cool',
-	},
-	{
-		emotionId: 2,
-		emotionImgSrc: `${process.env.PUBLIC_URL}/assets/emotion/emotion2.png`,
-		emotionDescript: 'good',
-	},
-	{
-		emotionId: 3,
-		emotionImgSrc: `${process.env.PUBLIC_URL}/assets/emotion/emotion3.png`,
-		emotionDescript: 'soso',
-	},
-	{
-		emotionId: 4,
-		emotionImgSrc: `${process.env.PUBLIC_URL}/assets/emotion/emotion4.png`,
-		emotionDescript: 'bad',
-	},
-	{
-		emotionId: 5,
-		emotionImgSrc: `${process.env.PUBLIC_URL}/assets/emotion/emotion5.png`,
-		emotionDescript: 'terrible',
-	},
-]
+import { DiaryItemData } from '../../types'
+import { getStringDate } from '../../util/date'
+import { emotionList } from '../../util/emotion'
 
 type DiaryEditorProps = {
 	isEdit?: boolean
@@ -55,16 +12,17 @@ type DiaryEditorProps = {
 }
 
 const DiaryEditor = ({ isEdit, data }: DiaryEditorProps) => {
-	const { onCreate, onEdit } = useContext(DiaryDispatchContext)
+	const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext)
 	const navigate = useNavigate()
 	const contentRef = useRef<HTMLTextAreaElement | null>(null)
 	const [content, setContent] = useState<string>('')
 	const [emotion, setEmotion] = useState<number>(3)
 	const [date, setDate] = useState<string>(getStringDate(new Date()))
 
-	const handleClickEmotion = (emotion: number) => {
+	const handleClickEmotion = useCallback((emotion: number) => {
 		setEmotion(emotion)
-	}
+	}, [])
+
 	const handleSubmit = () => {
 		if (content.length < 1) {
 			contentRef.current?.focus()
@@ -80,7 +38,13 @@ const DiaryEditor = ({ isEdit, data }: DiaryEditorProps) => {
 		navigate('/', { replace: true })
 	}
 
-	useEffect(() => {
+	const handleRemove = () => {
+		if (data) {
+			onRemove(data?.id)
+			navigate('/', { replace: true })
+		}
+	}
+	useLayoutEffect(() => {
 		if (isEdit) {
 			if (data) {
 				setDate(getStringDate(new Date(data.createdDate)))
@@ -102,6 +66,7 @@ const DiaryEditor = ({ isEdit, data }: DiaryEditorProps) => {
 						}}
 					/>
 				}
+				right={isEdit ? <MyButton text='삭제하기' type='negative' onClick={handleRemove} /> : <></>}
 			/>
 			<div>
 				<section>

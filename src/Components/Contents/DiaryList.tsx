@@ -1,18 +1,11 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DiaryItemData } from '../../types'
-import { DiaryItem } from '.'
+import DiaryItem from './DiaryItem'
 import { MyButton, ControlMenu } from '../Common'
+import { dateSortOptionList } from '../../util/date'
 
-const dateSortOptionList = [
-	{ value: 'lastest', name: '최신순' },
-	{ value: 'oldest', name: '오래된 순' },
-]
-const emotionSortOptionList = [
-	{ value: 'all', name: '전부다' },
-	{ value: 'good', name: '좋은 감정만' },
-	{ value: 'bad', name: '나쁜 감정만' },
-]
+import { emotionSortOptionList } from '../../util/emotion'
 
 type DiaryListProps = {
 	diaryData: DiaryItemData[]
@@ -20,13 +13,13 @@ type DiaryListProps = {
 
 const DiaryList = ({ diaryData }: DiaryListProps) => {
 	const navigate = useNavigate()
-	const [dateSortType, setdateSortType] = useState('lastest')
+	const [dateSortType, setdateSortType] = useState('latest')
 	const [emotionSortType, setEmotionSortType] = useState('all')
 
 	const getSortedDiaryList = () => {
 		let cloneList: DiaryItemData[] = JSON.parse(JSON.stringify(diaryData))
 
-		if (dateSortType === 'lastest') {
+		if (dateSortType === 'latest') {
 			cloneList.sort((a, b) => b.createdDate - a.createdDate)
 		} else {
 			cloneList.sort((a, b) => a.createdDate - b.createdDate)
@@ -39,6 +32,7 @@ const DiaryList = ({ diaryData }: DiaryListProps) => {
 		}
 
 		cloneList = cloneList.filter(emotionSortCallback)
+
 		return cloneList
 	}
 
@@ -58,7 +52,6 @@ const DiaryList = ({ diaryData }: DiaryListProps) => {
 					/>
 				</div>
 				<div className='right_col'>
-					{' '}
 					<MyButton
 						text='새 일기쓰기'
 						type='positive'
@@ -75,6 +68,7 @@ const DiaryList = ({ diaryData }: DiaryListProps) => {
 		</div>
 	)
 }
+
 DiaryList.defaultProps = {
 	diaryData: [],
 }

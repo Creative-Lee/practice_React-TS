@@ -9,12 +9,17 @@ export const dataReducer  :Reducer<DiaryItemData[],DataReducerActions >= (state,
       return action.data
     }
     case 'CREATE': {    
-      newState = [action.data, ...state]
+      newState = [...state,action.data]
+      
       break
     }
 
     case 'REMOVE': {
       newState = state.filter((e) => e.id !== action.data.id)
+      if(newState.length === 0){
+        localStorage.removeItem('diary')
+        return newState
+      }
       break
     }
 
@@ -28,6 +33,8 @@ export const dataReducer  :Reducer<DiaryItemData[],DataReducerActions >= (state,
     default:
       return state
   }
+  
+  localStorage.setItem('diary',JSON.stringify(newState)) 
 
   return newState
 }

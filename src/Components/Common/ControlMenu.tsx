@@ -1,3 +1,5 @@
+import React, { useEffect } from 'react'
+
 type SortOption = {
 	value: string
 	name: string
@@ -11,11 +13,7 @@ type ControlMenuProps = {
 
 const ControlMenu = ({ value, setValue, optionList }: ControlMenuProps) => {
 	return (
-		<select
-			className='ControlMenu'
-			value={value}
-			onChange={(e) => setValue(e.target.value)}
-		>
+		<select className='ControlMenu' value={value} onChange={(e) => setValue(e.target.value)}>
 			{optionList.map((option, idx) => (
 				<option key={idx} value={option.value}>
 					{option.name}
@@ -25,4 +23,4 @@ const ControlMenu = ({ value, setValue, optionList }: ControlMenuProps) => {
 	)
 }
 
-export default ControlMenu
+export default React.memo(ControlMenu)
